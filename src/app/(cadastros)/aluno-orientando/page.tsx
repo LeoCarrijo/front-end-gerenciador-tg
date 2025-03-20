@@ -1,4 +1,6 @@
-import React from 'react';
+"use client"
+
+import React, {useState} from 'react';
 import Image from 'next/image'
 import {
     Card,
@@ -21,6 +23,10 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 function AlunoOrientandoPage() {
+    const [possuiProf, setPossuiProf] = useState(false)
+    const [prof, setProf] = useState('')
+    const [turno, setTurno] = useState('')
+
     return (
         <div className="flex items-center justify-center h-screen my-20">
             <Card className="w-[500px] shadow-lg">
@@ -75,8 +81,8 @@ function AlunoOrientandoPage() {
                         <div className="flex flex-col gap-1 w-full">
                             <Label htmlFor="turma">Turma</Label>
                             <div className="flex gap-2">
-                                <Button className="cursor-pointer" variant="outline">Matutino</Button>
-                                <Button className="cursor-pointer" variant="outline">Noturno</Button>
+                                <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${turno === 'matutino' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`} variant="outline" onClick={() => {setTurno('matutino')}}>Matutino</Button>
+                                <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${turno === 'noturno' ? 'bg-blue-500 text-white' : 'bg-white text-black '}`} variant="outline" onClick={() => {setTurno('noturno')}}>Noturno</Button>
                             </div>
                         </div>
                         <div className="flex gap-1 w-full">
@@ -107,12 +113,44 @@ function AlunoOrientandoPage() {
                             Possui Professor Orientador?
                         </label>
                         <div className="flex gap-1">
-                            <Checkbox id="possui-prof" />
+                            <Checkbox id="possui-prof" onCheckedChange={() => {
+                                setPossuiProf(!possuiProf)
+                                setProf('')
+                            }} checked={possuiProf} />
                             <label htmlFor="possui-prof" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                 Sim
                             </label>
                         </div>
-                        //TODO Adicionar Select do Professor Orientador
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <Label htmlFor="orientador">Professor Orientador</Label>
+                        {possuiProf ?
+                            <Select defaultValue={prof} onValueChange={
+                                (value) => {setProf(value)}
+                            }>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Selecione o nome do professor orientador" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="prof1">Prof 1</SelectItem>
+                                    <SelectItem value="prof2">Prof 2</SelectItem>
+                                    <SelectItem value="prof3">Prof 3</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            :
+                            <Select defaultValue={prof} disabled onValueChange={
+                                (value) => {setProf(value)}
+                            }>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Selecione o nome do professor orientador" />
+                                </SelectTrigger>
+                                <SelectContent id="prof_escolha">
+                                    <SelectItem value="prof1">Prof 1</SelectItem>
+                                    <SelectItem value="prof2">Prof 2</SelectItem>
+                                    <SelectItem value="prof3">Prof 3</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        }
                     </div>
                 </CardContent>
                 <CardFooter className="flex">
