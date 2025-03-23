@@ -12,7 +12,7 @@ interface Props {
     description?: string
 }
 
-function FatecCardHeader({ description = 'Titulo Padrão do Componente' }: Props) {
+function CardFatecHeader({ description = 'Titulo Padrão do Componente' }: Props) {
     return (
         <CardHeader>
             <CardTitle className="flex items-center gap-8 overflow-hidden">
@@ -27,4 +27,4 @@ function FatecCardHeader({ description = 'Titulo Padrão do Componente' }: Props
     )
 }
 
-export default FatecCardHeader
+export default CardFatecHeader

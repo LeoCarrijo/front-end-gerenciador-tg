@@ -7,7 +7,7 @@ import {
     CardFooter,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import FatecCardHeader from './FatecCardHeader';
+import CardFatecHeader from './CardFatecHeader';
 
 interface Props {
     children: React.ReactNode
@@ -25,7 +25,7 @@ function CardFatec(
     }: Props) {
     return (
         <Card className="w-[500px] shadow-lg">
-            <FatecCardHeader description={description} />
+            <CardFatecHeader description={description} />
             <CardContent className="flex flex-col gap-4">
                 {children}
             </CardContent>
