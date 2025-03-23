@@ -26,10 +26,6 @@ function Page() {
             buttonFunction={() => { alert(`Enviado!`) }}
         >
             <div className="flex flex-col gap-1">
-                <Label htmlFor="idAtividade">ID da Atividade</Label>
-                <Input name="idAtividade" id="idAtividade" type="number" placeholder="Digite o ID da atividade" />
-            </div>
-            <div className="flex flex-col gap-1">
                 <Label htmlFor="ra">RA</Label>
                 <Input name="ra" id="ra" type="number" placeholder="Digite o RA do aluno" />
             </div>
