@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 function AdministradoresLoginPage() {
     return (
         <CardFatec
-            description={`Login de Administradores`}
+            description={`Login de Administrador`}
             buttonText={`Logar`}
             buttonFunction={() => { alert("Tentando logar!") }}
         >
