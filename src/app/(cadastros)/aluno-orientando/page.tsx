@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import CardFatec from '@/components/CardFatec';
 
+// TODO: Atualizar nomenclatura das variáveis para as mesmas do banco de dados
+
 function AlunoOrientandoPage() {
     const [possuiProf, setPossuiProf] = useState(false)
     const [prof, setProf] = useState('')
