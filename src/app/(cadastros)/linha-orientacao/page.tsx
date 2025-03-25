@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React from 'react'
 
+// TODO: Atualizar nomenclatura das variáveis para as mesmas utilizadas no banco de dados
+
 function LinhaOrientacaoPage() {
     return (
         <CardFatec
