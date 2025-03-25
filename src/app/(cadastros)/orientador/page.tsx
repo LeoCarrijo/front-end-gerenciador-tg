@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import CardFatec from '@/components/CardFatec';
 
+// TODO: Atualizar nomenclatura das variáveis para as mesmas utilizadas no banco de dados
 
 function OrientadorPage() {
     return (
