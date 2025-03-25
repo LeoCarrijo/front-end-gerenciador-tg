@@ -16,6 +16,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from "date-fns"
 
+// TODO: Atualizar nomenclatura das variáveis para as mesmas utilizadas no banco de dados
+
 function Page() {
     const [date, setDate] = React.useState<Date>()
 
