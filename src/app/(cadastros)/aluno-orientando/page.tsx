@@ -14,12 +14,13 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import CardFatec from '@/components/CardFatec';
 
-// TODO: Atualizar nomenclatura das variáveis para as mesmas do banco de dados
+// Link para o schema do Prisma com os nomes das variáveis
+// https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function AlunoOrientandoPage() {
     const [possuiProf, setPossuiProf] = useState(false)
     const [prof, setProf] = useState('')
-    const [turno, setTurno] = useState('')
+    const [periodo, setPeriodo] = useState('')
 
     return (
         <CardFatec
@@ -32,8 +33,8 @@ function AlunoOrientandoPage() {
                 <Input name="nome" id="nome" type="text" placeholder="Digite o nome do aluno" />
             </div>
             <div className="flex flex-col gap-1">
-                <Label htmlFor="ra">Matrícula</Label>
-                <Input name="ra" id="ra" type="number" placeholder="Digite o RA do aluno" />
+                <Label htmlFor="matricula">Matrícula</Label>
+                <Input name="matricula" id="matricula" type="number" placeholder="Digite o RA do aluno" />
             </div>
             <div className="flex gap-1 w-full">
                 <div className="flex flex-col gap-1 w-full">
@@ -49,19 +50,19 @@ function AlunoOrientandoPage() {
                 <div className="flex flex-col gap-1 w-full">
                     <Label htmlFor="turma">Turma</Label>
                     <div className="flex gap-2">
-                        <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${turno === 'matutino' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`} variant="outline" onClick={() => { setTurno('matutino') }}>Matutino</Button>
-                        <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${turno === 'noturno' ? 'bg-blue-500 text-white' : 'bg-white text-black '}`} variant="outline" onClick={() => { setTurno('noturno') }}>Noturno</Button>
+                        <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${periodo === 'matutino' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`} variant="outline" onClick={() => { setPeriodo('matutino') }}>Matutino</Button>
+                        <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${periodo === 'noturno' ? 'bg-blue-500 text-white' : 'bg-white text-black '}`} variant="outline" onClick={() => { setPeriodo('noturno') }}>Noturno</Button>
                     </div>
                 </div>
                 <div className="flex gap-1 w-full">
                     <div className="flex flex-col gap-1 w-full">
-                        <Label htmlFor="orientacao">Semestre</Label>
-                        <Input name="orientacao" id="orientacao" type="number" placeholder="Selecione o semestre do aluno" />
+                        <Label htmlFor="semestre">Semestre</Label>
+                        <Input name="semestre" id="semestre" type="number" placeholder="Selecione o semestre do aluno" />
                     </div>
                 </div>
             </div>
             <div className="flex flex-col gap-1 w-full">
-                <Label htmlFor="orientacao">Há dependência?</Label>
+                <Label htmlFor="haDependencia">Há dependência?</Label>
                 <Select>
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione se o aluno tem dependência" />
@@ -91,7 +92,7 @@ function AlunoOrientandoPage() {
                 </div>
             </div>
             <div className="flex flex-col gap-1">
-                <Label htmlFor="orientador">Professor Orientador</Label>
+                <Label htmlFor="professorOrientador">Professor Orientador</Label>
                 {possuiProf ?
                     <Select defaultValue={prof} onValueChange={
                         (value) => { setProf(value) }
