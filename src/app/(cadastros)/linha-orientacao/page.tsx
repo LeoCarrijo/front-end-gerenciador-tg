@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React from 'react'
 
-// TODO: Atualizar nomenclatura das variáveis para as mesmas utilizadas no banco de dados
+// Link para o schema do Prisma com os nomes das variáveis
+// https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function LinhaOrientacaoPage() {
     return (
@@ -15,8 +16,8 @@ function LinhaOrientacaoPage() {
             buttonFunction={() => { alert(`Linha de Orientação Cadastrada!`) }}
         >
             <div className="flex flex-col gap-1">
-                <Label htmlFor="linha_orientacao">Nome da Linha de Orientação</Label>
-                <Input name="linha_orientacao" id="linha_orientacao" type="text" placeholder="Digite o nome da linha de orientação" />
+                <Label htmlFor="linha">Nome da Linha de Orientação</Label>
+                <Input name="linha" id="linha" type="text" placeholder="Digite o nome da linha de orientação" />
             </div>
         </CardFatec>
     )
