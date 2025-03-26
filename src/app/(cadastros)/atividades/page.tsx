@@ -16,7 +16,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from "date-fns"
 
-// TODO: Atualizar nomenclatura das variáveis para as mesmas utilizadas no banco de dados
+// Link para o schema do Prisma com os nomes das variáveis
+// https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function Page() {
     const [date, setDate] = React.useState<Date>()
@@ -28,8 +29,8 @@ function Page() {
             buttonFunction={() => { alert(`Enviado!`) }}
         >
             <div className="flex flex-col gap-1">
-                <Label htmlFor="ra">RA</Label>
-                <Input name="ra" id="ra" type="number" placeholder="Digite o RA do aluno" />
+                <Label htmlFor="matricula">RA</Label>
+                <Input name="matricula" id="matricula" type="number" placeholder="Digite o RA do aluno" />
             </div>
             <div className="flex flex-col gap-1">
                 <Label htmlFor="dataEntrega">Data de Entrega</Label>
@@ -60,7 +61,7 @@ function Page() {
             </div>
             <div className="flex flex-col gap-1">
                 <Label htmlFor="arquivo">Arquivo do Trabalho</Label>
-                <Input className='w-full' id="arquivo" type="file" />
+                <Input className='w-full' id="arquivo" name='arquivo' type="file" />
             </div>
             <div className="flex flex-col gap-1">
                 <Label htmlFor="descricao">Descrição da Atividade</Label>
