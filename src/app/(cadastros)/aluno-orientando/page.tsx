@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import CardFatec from '@/components/CardFatec';
+import { z } from "zod"
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
@@ -21,6 +22,19 @@ function AlunoOrientandoPage() {
     const [possuiProf, setPossuiProf] = useState(false)
     const [prof, setProf] = useState('')
     const [periodo, setPeriodo] = useState('')
+
+    const formSchema = z.object({
+        nome: z.string(),
+        matricula: z.number(),
+        curso: z.string(),
+        turma: z.string(),
+        periodo: z.enum(['matutino', 'noturno']),
+        semestre: z.number().min(1).max(6),
+        haDependencia: z.boolean(),
+        email: z.string().email(),
+        possuiProf: z.boolean(),
+        professorOrientador: z.string().optional(),
+    })
 
     return (
         <CardFatec
