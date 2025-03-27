@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import CardFatec from '@/components/CardFatec';
 import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
@@ -25,16 +27,38 @@ function AlunoOrientandoPage() {
 
     const formSchema = z.object({
         nome: z.string(),
-        matricula: z.number(),
+        matricula: z.number().or(z.null()),
         curso: z.string(),
         turma: z.string(),
-        periodo: z.enum(['matutino', 'noturno']),
-        semestre: z.number().min(1).max(6),
-        haDependencia: z.boolean(),
+        periodo: z.enum(['matutino', 'noturno']).or(z.null()),
+        semestre: z.number().min(1).max(6).or(z.null()),
+        haDependencia: z.boolean().or(z.null()),
         email: z.string().email(),
-        possuiProf: z.boolean(),
-        professorOrientador: z.string().optional(),
+        possuiProf: z.boolean().or(z.null()),
+        professorOrientador: z.string().optional().or(z.null()),
     })
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            nome: "",
+            matricula: null,
+            curso: "",
+            turma: "",
+            periodo: null,
+            semestre: null,
+            haDependencia: null,
+            email: "",
+            possuiProf: null,
+            professorOrientador: null
+        },
+    })
+
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        // Do something with the form values.
+        // ✅ This will be type-safe and validated.
+        console.log(values)
+    }
 
     return (
         <CardFatec
