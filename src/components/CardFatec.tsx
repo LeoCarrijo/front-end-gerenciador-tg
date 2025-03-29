@@ -31,6 +31,7 @@ function CardFatec(
             </CardContent>
             <CardFooter className="flex justify-stretch w-full">
                 <Button
+                    type='submit'
                     className="bg-blue-500 cursor-pointer text-white w-full"
                     variant="default"
                     onClick={
