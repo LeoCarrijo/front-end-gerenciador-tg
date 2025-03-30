@@ -136,10 +136,6 @@ function AlunoOrientandoPage() {
                                 <FormItem className="flex flex-col gap-1 w-full">
                                     <FormLabel>Turma</FormLabel>
                                     <FormControl className="flex gap-2">
-                                        {/* <div>
-                                            <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${periodo === 'matutino' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`} variant="outline" onClick={() => { setPeriodo('matutino') }}>Matutino</Button>
-                                            <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${periodo === 'noturno' ? 'bg-blue-500 text-white' : 'bg-white text-black '}`} variant="outline" onClick={() => { setPeriodo('noturno') }} {...field}>Noturno</Button>
-                                        </div> */}
                                         <RadioAluno />
                                     </FormControl>
                                     <FormMessage />
