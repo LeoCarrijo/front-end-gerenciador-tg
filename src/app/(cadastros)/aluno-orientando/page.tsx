@@ -139,11 +139,11 @@ function AlunoOrientandoPage() {
                         <FormField
                             control={form.control}
                             name="periodo"
-                            render={() => (
+                            render={({ field }) => (
                                 <FormItem className="flex flex-col gap-1 w-full">
                                     <FormLabel>Turma</FormLabel>
                                     <FormControl className="flex gap-2">
-                                        <RadioAluno />
+                                        <RadioAluno value={field.value} onChange={field.onChange} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
