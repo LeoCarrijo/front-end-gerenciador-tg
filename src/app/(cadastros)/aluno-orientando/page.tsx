@@ -23,15 +23,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import RadioAluno from '@/components/RadioAluno';
-import { usePeriodo } from '@/store/periodoStore';
 // import { AlunoOrientandoFormValues } from '@/lib/typing';
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function AlunoOrientandoPage() {
-    const { periodo } = usePeriodo()
-
     const formSchema = z.object({
         nome: z.string().min(1, { message: "Nome obrigatório" }),
         matricula: z.coerce.number(),
@@ -53,7 +50,7 @@ function AlunoOrientandoPage() {
             matricula: 0,
             curso: "",
             turma: "",
-            periodo: periodo,
+            periodo: "matutino",
             semestre: 0,
             haDependencia: false,
             email: "",
