@@ -2,6 +2,8 @@ import React from 'react'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { usePeriodo } from '@/store/periodoStore'
 
+interface RadioAlunoProps { }
+
 function RadioAluno() {
     const { periodo, setPeriodo } = usePeriodo()
 
