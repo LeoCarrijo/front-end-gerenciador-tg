@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Select,
     SelectContent,
@@ -23,18 +23,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import RadioAluno from '@/components/RadioAluno';
-import { usePeriodo } from '@/store/periodoStore';
-import { AlunoOrientandoFormValues } from '@/lib/typing';
+// import { AlunoOrientandoFormValues } from '@/lib/typing';
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function AlunoOrientandoPage() {
-    const [possuiProf, setPossuiProf] = useState(false)
-    const [prof, setProf] = useState('')
-    const [haDependencia, setHaDependencia] = useState(false)
-    const { periodo } = usePeriodo()
-
     const formSchema = z.object({
         nome: z.string().min(1, { message: "Nome obrigatório" }),
         matricula: z.coerce.number(),
@@ -56,7 +50,7 @@ function AlunoOrientandoPage() {
             matricula: 0,
             curso: "",
             turma: "",
-            periodo: periodo,
+            periodo: "matutino",
             semestre: 0,
             haDependencia: false,
             email: "",
@@ -66,17 +60,8 @@ function AlunoOrientandoPage() {
     })
 
     function onSumbit(values: z.infer<typeof formSchema>) {
-        const formValues: AlunoOrientandoFormValues = {
-            nome: values.nome,
-            matricula: values.matricula,
-            curso: values.curso,
-            turma: values.turma,
-            periodo: periodo,
-            semestre: values.semestre,
-            haDependencia: haDependencia,
-            email: values.email,
-            possuiProf: possuiProf,
-            professorOrientador: prof
+        const formValues = {
+            ...values,
         }
         console.log(formValues)
         alert('Aluno cadastrado!')
@@ -151,11 +136,11 @@ function AlunoOrientandoPage() {
                         <FormField
                             control={form.control}
                             name="periodo"
-                            render={() => (
+                            render={({ field }) => (
                                 <FormItem className="flex flex-col gap-1 w-full">
                                     <FormLabel>Turma</FormLabel>
                                     <FormControl className="flex gap-2">
-                                        <RadioAluno />
+                                        <RadioAluno value={field.value} onChange={field.onChange} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -186,12 +171,12 @@ function AlunoOrientandoPage() {
                                     <FormLabel>Há dependência?</FormLabel>
                                     <FormControl>
                                         <Select
-                                            defaultValue={haDependencia ? "sim" : "nao"}
+                                            defaultValue={field.value ? "sim" : "nao"}
                                             onValueChange={(value) => {
-                                                setHaDependencia(value === "sim")
+                                                field.onChange(value === "sim")
                                             }}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue {...field} placeholder="Selecione se o aluno tem dependência" />
+                                                <SelectValue placeholder="Selecione se o aluno tem dependência" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="sim">Sim</SelectItem>
@@ -223,15 +208,15 @@ function AlunoOrientandoPage() {
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1">
                                 <FormLabel>Possui Professor Orientador?</FormLabel>
-                                <FormControl {...field} className="flex gap-1">
+                                <FormControl className="flex gap-1">
                                     <div>
                                         <Checkbox
                                             id="possui-prof"
-                                            onCheckedChange={() => {
-                                                setPossuiProf(!possuiProf)
-                                                setProf('')
+                                            onCheckedChange={(checked) => {
+                                                field.onChange(checked)
+                                                form.setValue("professorOrientador", undefined)
                                             }}
-                                            checked={possuiProf}
+                                            checked={field.value}
                                         />
                                         <label htmlFor="possui-prof" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                             Sim
@@ -249,12 +234,10 @@ function AlunoOrientandoPage() {
                             <FormItem className="flex flex-col gap-1">
                                 <FormLabel>Professor Orientador</FormLabel>
                                 <FormControl>
-                                    {possuiProf ?
+                                    {form.watch("possuiProf") ?
                                         <Select
-                                            onValueChange={
-                                                (value) => { setProf(value) }
-                                            }
-                                            value={prof}>
+                                            onValueChange={field.onChange}
+                                            value={field.value}>
                                             <SelectTrigger className="w-full">
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
@@ -265,13 +248,11 @@ function AlunoOrientandoPage() {
                                             </SelectContent>
                                         </Select>
                                         :
-                                        <Select
-                                            disabled
-                                            value={prof}>
+                                        <Select disabled value={field.value}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Selecione o nome do professor orientador" {...field} />
+                                                <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
-                                            <SelectContent id="prof_escolha">
+                                            <SelectContent>
                                                 <SelectItem value="prof1">Prof 1</SelectItem>
                                                 <SelectItem value="prof2">Prof 2</SelectItem>
                                                 <SelectItem value="prof3">Prof 3</SelectItem>
