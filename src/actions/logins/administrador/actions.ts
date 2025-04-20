@@ -9,7 +9,7 @@ export async function LoginAdmin(data: Record<string, any>) {
         })
 
         if(!response.ok) {
-            throw new Error(`Erro ao fazer login: ${response.statusText}`))
+            throw new Error(`Erro ao fazer login: ${response.statusText}`)
         }
 
         return await response.json()
