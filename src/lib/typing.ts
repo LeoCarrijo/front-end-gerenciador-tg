@@ -10,3 +10,10 @@ export type AlunoOrientandoFormValues = {
     possuiProf: boolean
     professorOrientador: string | undefined
 }
+
+export type Trabalho = {
+    tema: string
+    objetivo: string
+    questaoProblema: string
+    alunoOrientadoRa: string
+}
