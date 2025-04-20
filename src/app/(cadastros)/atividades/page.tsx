@@ -27,6 +27,7 @@ import { format } from "date-fns"
 import { z } from "zod"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { createAtividade } from '@/actions/atividades/actions';
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
@@ -57,8 +58,16 @@ function Page() {
         }
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
+        try {
+            const response = await createAtividade(values)
+            console.log("Atividade enviada com sucesso", response)
+            alert("Atividade enviada com sucesso")
+        } catch (error) {
+            console.error("Erro ao enviar atividade", error)
+            alert("Erro ao enviar atividade")
+        }
     }
 
     return (
