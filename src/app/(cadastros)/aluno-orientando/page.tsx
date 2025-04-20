@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Select,
     SelectContent,
@@ -8,117 +8,272 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import CardFatec from '@/components/CardFatec';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import RadioAluno from '@/components/RadioAluno';
+import { createAlunoOrientando } from "@/actions/aluno-orientando/actions";
+
+const trabalhoSchema = z.object({
+    tema: z.string(),
+    objetivo: z.string(),
+    questaoProblema: z.string(),
+    alunoOrientadoRa: z.string()
+});
 
 function AlunoOrientandoPage() {
-    const [possuiProf, setPossuiProf] = useState(false)
-    const [prof, setProf] = useState('')
-    const [turno, setTurno] = useState('')
+    const formSchema = z.object({
+        nome: z.string().min(1, { message: "Nome obrigatório" }),
+        matricula: z.string(),
+        curso: z.string(),
+        turma: z.string(),
+        periodo: z.enum(['matutino', 'noturno']),
+        semestre: z.string(),
+        haDependencia: z.boolean(),
+        email: z.string().email(),
+        possuiProf: z.boolean(),
+        professorOrientadorCpf: z.string().optional(),
+        senha: z.string(),
+        trabalho: z.array(trabalhoSchema)
+    })
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        mode: "onSubmit",
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            nome: "",
+            matricula: "0",
+            curso: "",
+            turma: "",
+            periodo: "matutino",
+            semestre: "0",
+            haDependencia: false,
+            email: "",
+            possuiProf: false,
+            professorOrientadorCpf: undefined,
+            senha: "12345",
+            trabalho: []
+        }
+    })
+
+    async function onSumbit(values: z.infer<typeof formSchema>) {
+        console.log("Form values:", values);
+        try {
+            const response = await createAlunoOrientando(values);
+            console.log("Aluno cadastrado com sucesso:", response);
+            alert("Aluno cadastrado com sucesso!");
+        } catch (error) {
+            alert("Erro ao cadastrar aluno. Verifique os dados e tente novamente.");
+        }
+    }
 
     return (
-        <CardFatec
-            description={`Cadastro de Aluno Orientando`}
-            buttonText={`Cadastrar`}
-            buttonFunction={() => { alert(`Aluno Cadastrado!`) }}
-        >
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="nome">Nome</Label>
-                <Input name="nome" id="nome" type="text" placeholder="Digite o nome do aluno" />
-            </div>
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="ra">Matrícula</Label>
-                <Input name="ra" id="ra" type="number" placeholder="Digite o RA do aluno" />
-            </div>
-            <div className="flex gap-1 w-full">
-                <div className="flex flex-col gap-1 w-full">
-                    <Label htmlFor="curso">Curso</Label>
-                    <Input name="curso" id="curso" type="text" placeholder="Selecione o curso do aluno" />
-                </div>
-                <div className="flex flex-col gap-1 w-full">
-                    <Label htmlFor="turma">Turma</Label>
-                    <Input name="turma" id="turma" type="text" placeholder="Selecione a turma do aluno" />
-                </div>
-            </div>
-            <div className="flex gap-1 w-full">
-                <div className="flex flex-col gap-1 w-full">
-                    <Label htmlFor="turma">Turma</Label>
-                    <div className="flex gap-2">
-                        <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${turno === 'matutino' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`} variant="outline" onClick={() => { setTurno('matutino') }}>Matutino</Button>
-                        <Button className={`cursor-pointer hover:bg-blue-300 hover:text-white ${turno === 'noturno' ? 'bg-blue-500 text-white' : 'bg-white text-black '}`} variant="outline" onClick={() => { setTurno('noturno') }}>Noturno</Button>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSumbit)}>
+                <CardFatec
+                    description={`Cadastro de Aluno Orientando`}
+                    buttonText={`Cadastrar`}
+                    buttonFunction={() => { }}
+                >
+                    <FormField
+                        control={form.control}
+                        name="nome"
+                        render={({ field }) => {
+                            return (
+                                <FormItem>
+                                    <FormLabel>Nome</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Digite o nome do aluno" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>)
+                        }}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="matricula"
+                        render={({ field }) => {
+                            return (
+                                <FormItem className="flex flex-col gap-1">
+                                    <FormLabel>Matrícula</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Digite o RA do aluno" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }}
+                    />
+                    <div className="flex gap-1 w-full">
+                        <FormField
+                            control={form.control}
+                            name="curso"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-1">
+                                    <FormLabel>Curso</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Selecione o curso do aluno" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="turma"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-1">
+                                    <FormLabel>Turma</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Selecione a turma do aluno" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
-                </div>
-                <div className="flex gap-1 w-full">
-                    <div className="flex flex-col gap-1 w-full">
-                        <Label htmlFor="orientacao">Semestre</Label>
-                        <Input name="orientacao" id="orientacao" type="number" placeholder="Selecione o semestre do aluno" />
+                    <div className="flex gap-1 w-full">
+                        <FormField
+                            control={form.control}
+                            name="periodo"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-1 w-full">
+                                    <FormLabel>Turma</FormLabel>
+                                    <FormControl className="flex gap-2">
+                                        <RadioAluno value={field.value} onChange={field.onChange} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex gap-1 w-full">
+                            <FormField
+                                control={form.control}
+                                name="semestre"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col gap-1">
+                                        <FormLabel>Semestre</FormLabel>
+                                        <FormControl>
+                                            <Input type="text" placeholder="Selecione o semestre do aluno" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div className="flex flex-col gap-1 w-full">
-                <Label htmlFor="orientacao">Há dependência?</Label>
-                <Select>
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Selecione se o aluno tem dependência" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="sim">Sim</SelectItem>
-                        <SelectItem value="nao">Não</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="email">E-mail Institucional</Label>
-                <Input name="email" id="email" type="email" placeholder="Digite o e-mail institucional do aluno" />
-            </div>
-            <div className="flex flex-col gap-2">
-                <label htmlFor="possui-prof" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Possui Professor Orientador?
-                </label>
-                <div className="flex gap-1">
-                    <Checkbox id="possui-prof" onCheckedChange={() => {
-                        setPossuiProf(!possuiProf)
-                        setProf('')
-                    }} checked={possuiProf} />
-                    <label htmlFor="possui-prof" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Sim
-                    </label>
-                </div>
-            </div>
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="orientador">Professor Orientador</Label>
-                {possuiProf ?
-                    <Select defaultValue={prof} onValueChange={
-                        (value) => { setProf(value) }
-                    }>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Selecione o nome do professor orientador" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="prof1">Prof 1</SelectItem>
-                            <SelectItem value="prof2">Prof 2</SelectItem>
-                            <SelectItem value="prof3">Prof 3</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    :
-                    <Select defaultValue={prof} disabled onValueChange={
-                        (value) => { setProf(value) }
-                    }>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Selecione o nome do professor orientador" />
-                        </SelectTrigger>
-                        <SelectContent id="prof_escolha">
-                            <SelectItem value="prof1">Prof 1</SelectItem>
-                            <SelectItem value="prof2">Prof 2</SelectItem>
-                            <SelectItem value="prof3">Prof 3</SelectItem>
-                        </SelectContent>
-                    </Select>
-                }
-            </div>
-        </CardFatec>
+                    <FormField
+                        control={form.control}
+                        name="haDependencia"
+                        render={({ field }) => {
+                            return (
+                                <FormItem className="flex flex-col gap-1">
+                                    <FormLabel>Há dependência?</FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            defaultValue={field.value ? "sim" : "nao"}
+                                            onValueChange={(value) => {
+                                                field.onChange(value === "sim")
+                                            }}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Selecione se o aluno tem dependência" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="sim">Sim</SelectItem>
+                                                <SelectItem value="nao">Não</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col gap-1">
+                                <FormLabel>E-mail</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o e-mail institucional do aluno" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="possuiProf"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col gap-1">
+                                <FormLabel>Possui Professor Orientador?</FormLabel>
+                                <FormControl className="flex gap-1">
+                                    <div>
+                                        <Checkbox
+                                            id="possui-prof"
+                                            onCheckedChange={(checked) => {
+                                                field.onChange(checked)
+                                                form.setValue("professorOrientadorCpf", undefined)
+                                            }}
+                                            checked={field.value}
+                                        />
+                                        <label htmlFor="possui-prof" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                            Sim
+                                        </label>
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="professorOrientadorCpf"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col gap-1">
+                                <FormLabel>Professor Orientador</FormLabel>
+                                <FormControl>
+                                    {form.watch("possuiProf") ?
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            value={field.value}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Selecione o nome do professor orientador" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="2134241241231">2134241241231</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        :
+                                        <Select disabled value={field.value}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Selecione o nome do professor orientador" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="2134241241231">2134241241231</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    }
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </CardFatec >
+            </form>
+        </Form >
     );
 }
 

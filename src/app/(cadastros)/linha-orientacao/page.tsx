@@ -2,21 +2,79 @@
 
 import CardFatec from '@/components/CardFatec'
 import { Input } from '@/components/ui/input'
+import { z } from 'zod'
 import { Label } from '@/components/ui/label'
 import React from 'react'
+import { resolve } from 'path'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import { createLinhaOrientacao } from '@/actions/linha-orientacao/actions'
+
+// Link para o schema do Prisma com os nomes das variáveis
+// https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function LinhaOrientacaoPage() {
+
+    const formSchema = z.object({
+        linha: z.string(),
+        // professorOrientadorCpf: z.string(),
+        cpfs: z.string()
+    })
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            linha: "",
+            // professorOrientadorCpf: "",
+            cpfs: ""
+        }
+    })
+
+    async function onSubmit(data: z.infer<typeof formSchema>) {
+        console.log(data)
+        try {
+            const response = await createLinhaOrientacao(data)
+            console.log("linha orientacao criada", response)
+            alert("Linha de Orientação criada com sucesso!")
+        } catch (error) {
+            console.error("Erro ao criar linha de orientação", error)
+        }
+    }
+
     return (
-        <CardFatec
-            description={`Cadastro de Linha de Orientação`}
-            buttonText={`Cadastrar Linha de Orientação`}
-            buttonFunction={() => { alert(`Linha de Orientação Cadastrada!`) }}
-        >
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="linha_orientacao">Nome da Linha de Orientação</Label>
-                <Input name="linha_orientacao" id="linha_orientacao" type="text" placeholder="Digite o nome da linha de orientação" />
-            </div>
-        </CardFatec>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <CardFatec
+                    description={`Cadastro de Linha de Orientação`}
+                    buttonText={`Cadastrar Linha de Orientação`}
+                    buttonFunction={() => { }}
+                >
+                    <FormField
+                        control={form.control}
+                        name="linha"
+                        render={({ field }) => {
+                            return (
+                                <FormItem className="flex flex-col gap-1">
+                                    <FormLabel htmlFor='linha'>Nome da Linha de Orientação</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Digite o nome da linha de orientação" {...field} />
+                                    </FormControl>
+                                </FormItem>
+                            )
+                        }}
+                    />
+                </CardFatec>
+            </form>
+        </Form>
     )
 }
 
