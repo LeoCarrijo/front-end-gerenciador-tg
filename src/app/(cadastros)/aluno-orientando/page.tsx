@@ -23,23 +23,29 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import RadioAluno from '@/components/RadioAluno';
-// import { AlunoOrientandoFormValues } from '@/lib/typing';
+import { createAlunoOrientando } from "@/actions/aluno-orientando/actions";
 
-// Link para o schema do Prisma com os nomes das variáveis
-// https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
+const trabalhoSchema = z.object({
+    tema: z.string(),
+    objetivo: z.string(),
+    questaoProblema: z.string(),
+    alunoOrientadoRa: z.string()
+});
 
 function AlunoOrientandoPage() {
     const formSchema = z.object({
         nome: z.string().min(1, { message: "Nome obrigatório" }),
-        matricula: z.coerce.number(),
+        matricula: z.string(),
         curso: z.string(),
         turma: z.string(),
         periodo: z.enum(['matutino', 'noturno']),
-        semestre: z.coerce.number(),
+        semestre: z.string(),
         haDependencia: z.boolean(),
         email: z.string().email(),
         possuiProf: z.boolean(),
-        professorOrientador: z.string().optional(),
+        professorOrientadorCpf: z.string().optional(),
+        senha: z.string(),
+        trabalho: z.array(trabalhoSchema)
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -47,24 +53,29 @@ function AlunoOrientandoPage() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             nome: "",
-            matricula: 0,
+            matricula: "0",
             curso: "",
             turma: "",
             periodo: "matutino",
-            semestre: 0,
+            semestre: "0",
             haDependencia: false,
             email: "",
             possuiProf: false,
-            professorOrientador: undefined
+            professorOrientadorCpf: undefined,
+            senha: "12345",
+            trabalho: []
         }
     })
 
-    function onSumbit(values: z.infer<typeof formSchema>) {
-        const formValues = {
-            ...values,
+    async function onSumbit(values: z.infer<typeof formSchema>) {
+        console.log("Form values:", values);
+        try {
+            const response = await createAlunoOrientando(values);
+            console.log("Aluno cadastrado com sucesso:", response);
+            alert("Aluno cadastrado com sucesso!");
+        } catch (error) {
+            alert("Erro ao cadastrar aluno. Verifique os dados e tente novamente.");
         }
-        console.log(formValues)
-        alert('Aluno cadastrado!')
     }
 
     return (
@@ -97,7 +108,7 @@ function AlunoOrientandoPage() {
                                 <FormItem className="flex flex-col gap-1">
                                     <FormLabel>Matrícula</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Digite o RA do aluno" {...field} />
+                                        <Input type="text" placeholder="Digite o RA do aluno" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -154,7 +165,7 @@ function AlunoOrientandoPage() {
                                     <FormItem className="flex flex-col gap-1">
                                         <FormLabel>Semestre</FormLabel>
                                         <FormControl>
-                                            <Input type="number" placeholder="Selecione o semestre do aluno" {...field} />
+                                            <Input type="text" placeholder="Selecione o semestre do aluno" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -214,7 +225,7 @@ function AlunoOrientandoPage() {
                                             id="possui-prof"
                                             onCheckedChange={(checked) => {
                                                 field.onChange(checked)
-                                                form.setValue("professorOrientador", undefined)
+                                                form.setValue("professorOrientadorCpf", undefined)
                                             }}
                                             checked={field.value}
                                         />
@@ -229,7 +240,7 @@ function AlunoOrientandoPage() {
                     />
                     <FormField
                         control={form.control}
-                        name="professorOrientador"
+                        name="professorOrientadorCpf"
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1">
                                 <FormLabel>Professor Orientador</FormLabel>
@@ -242,9 +253,7 @@ function AlunoOrientandoPage() {
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="prof1">Prof 1</SelectItem>
-                                                <SelectItem value="prof2">Prof 2</SelectItem>
-                                                <SelectItem value="prof3">Prof 3</SelectItem>
+                                                <SelectItem value="2134241241231">2134241241231</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         :
@@ -253,9 +262,7 @@ function AlunoOrientandoPage() {
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="prof1">Prof 1</SelectItem>
-                                                <SelectItem value="prof2">Prof 2</SelectItem>
-                                                <SelectItem value="prof3">Prof 3</SelectItem>
+                                                <SelectItem value="2134241241231">2134241241231</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     }
