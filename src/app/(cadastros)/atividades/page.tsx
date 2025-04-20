@@ -65,8 +65,8 @@ function Page() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <CardFatec
-                    description={`Cadastro de Aluno Orientando`}
-                    buttonText={`Cadastrar`}
+                    description={`Envio de Atividades`}
+                    buttonText={`Enviar`}
                     buttonFunction={() => { }}
                 >
                     <FormField
