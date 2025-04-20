@@ -17,6 +17,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import { createLinhaOrientacao } from '@/actions/linha-orientacao/actions'
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
@@ -38,8 +39,15 @@ function LinhaOrientacaoPage() {
         }
     })
 
-    function onSubmit(data: z.infer<typeof formSchema>) {
+    async function onSubmit(data: z.infer<typeof formSchema>) {
         console.log(data)
+        try {
+            const response = await createLinhaOrientacao(data)
+            console.log("linha orientacao criada", response)
+            alert("Linha de Orientação criada com sucesso!")
+        } catch (error) {
+            console.error("Erro ao criar linha de orientação", error)
+        }
     }
 
     return (
@@ -48,7 +56,7 @@ function LinhaOrientacaoPage() {
                 <CardFatec
                     description={`Cadastro de Linha de Orientação`}
                     buttonText={`Cadastrar Linha de Orientação`}
-                    buttonFunction={() => { alert(`Linha de Orientação Cadastrada!`) }}
+                    buttonFunction={() => { }}
                 >
                     <FormField
                         control={form.control}
@@ -63,7 +71,6 @@ function LinhaOrientacaoPage() {
                                 </FormItem>
                             )
                         }}
-
                     />
                 </CardFatec>
             </form>
