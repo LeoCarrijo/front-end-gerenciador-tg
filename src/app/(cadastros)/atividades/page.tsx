@@ -32,22 +32,28 @@ import { useForm } from 'react-hook-form';
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
 
 function Page() {
-    const [date, setDate] = React.useState<Date>()
+    // const [date, setDate] = React.useState<Date>()
 
     const formSchema = z.object({
-        matricula: z.coerce.number(),
-        dataEntrega: z.date(),
-        arquivo: z.any(),
-        descricao: z.string()
+        alunoOrientadoRa: z.string(),
+        // dataEntrega: z.date(),
+        // arquivo: z.string(),
+        // descricao: z.string(),
+        tema: z.string(),
+        objetivo: z.string(),
+        questaoProblema: z.string()
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            matricula: 0,
-            dataEntrega: new Date(),
-            arquivo: "",
-            descricao: ""
+            alunoOrientadoRa: "",
+            // dataEntrega: new Date(),
+            // arquivo: "",
+            // descricao: "",
+            tema: "",
+            objetivo: "",
+            questaoProblema: ""
         }
     })
 
@@ -65,18 +71,18 @@ function Page() {
                 >
                     <FormField
                         control={form.control}
-                        name="matricula"
+                        name="alunoOrientadoRa"
                         render={({ field }) => {
                             return (
                                 <FormItem>
                                     <FormLabel>RA</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Digite o RA do aluno" {...field} />
+                                        <Input type="text" placeholder="Digite o RA do aluno" {...field} />
                                     </FormControl>
                                 </FormItem>)
                         }}
                     />
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="dataEntrega"
                         render={({ field }) => {
@@ -137,6 +143,42 @@ function Page() {
                                 <FormItem>
                                     <FormLabel htmlFor='descricao'>Descrição da Atividade</FormLabel>
                                     <Textarea placeholder="Digite a descrição da atividade" {...field} />
+                                </FormItem>
+                            )
+                        }}
+                    /> */}
+                    <FormField
+                        control={form.control}
+                        name="tema"
+                        render={({ field }) => {
+                            return (
+                                <FormItem>
+                                    <FormLabel htmlFor='tema'>Tema da Atividade</FormLabel>
+                                    <Input type='text' placeholder="Digite o tema da atividade" {...field} />
+                                </FormItem>
+                            )
+                        }}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="objetivo"
+                        render={({ field }) => {
+                            return (
+                                <FormItem>
+                                    <FormLabel htmlFor='objetivo'>Objetivo da Atividade</FormLabel>
+                                    <Input type='text' placeholder="Digite o objetivo da atividade" {...field} />
+                                </FormItem>
+                            )
+                        }}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="questaoProblema"
+                        render={({ field }) => {
+                            return (
+                                <FormItem>
+                                    <FormLabel htmlFor='questaoProblema'>Questão Problema</FormLabel>
+                                    <Input type='text' placeholder="Digite a questão problema da atividade" {...field} />
                                 </FormItem>
                             )
                         }}
