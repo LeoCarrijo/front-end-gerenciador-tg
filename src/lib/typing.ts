@@ -17,3 +17,9 @@ export type Trabalho = {
     questaoProblema: string
     alunoOrientadoRa: string
 }
+
+export type LinhaOrientacao = {
+    linha: string
+    professorOrientadorCpf: string
+    cpfs: string
+}
