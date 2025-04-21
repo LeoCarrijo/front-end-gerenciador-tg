@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import RadioAluno from '@/components/RadioAluno';
-import { createAlunoOrientando } from "@/actions/aluno-orientando/actions";
+import { createAlunoOrientando } from "@/actions/cadastros/aluno-orientando/actions";
 
 const trabalhoSchema = z.object({
     tema: z.string(),

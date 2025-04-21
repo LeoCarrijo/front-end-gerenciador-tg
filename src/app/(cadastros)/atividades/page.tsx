@@ -27,7 +27,7 @@ import { format } from "date-fns"
 import { z } from "zod"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { createAtividade } from '@/actions/atividades/actions';
+import { createAtividade } from '@/actions/cadastros/atividades/actions';
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma

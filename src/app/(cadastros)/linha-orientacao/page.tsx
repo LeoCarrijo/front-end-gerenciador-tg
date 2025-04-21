@@ -17,7 +17,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { createLinhaOrientacao } from '@/actions/linha-orientacao/actions'
+import { createLinhaOrientacao } from '@/actions/cadastros/linha-orientacao/actions'
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
