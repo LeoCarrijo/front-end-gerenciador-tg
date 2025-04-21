@@ -53,11 +53,11 @@ function AlunoOrientandoPage() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             nome: "",
-            matricula: "0",
+            matricula: "",
             curso: "",
             turma: "",
             periodo: "matutino",
-            semestre: "0",
+            semestre: "",
             haDependencia: false,
             email: "",
             possuiProf: false,
@@ -253,7 +253,7 @@ function AlunoOrientandoPage() {
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="2134241241231">2134241241231</SelectItem>
+                                                <SelectItem value="70264861876">70264861876</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         :
@@ -262,7 +262,7 @@ function AlunoOrientandoPage() {
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="2134241241231">2134241241231</SelectItem>
+                                                <SelectItem value="70264861876">70264861876</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     }
