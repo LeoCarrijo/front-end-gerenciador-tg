@@ -23,3 +23,18 @@ export type LinhaOrientacao = {
     professorOrientadorCpf: string
     cpfs: string
 }
+
+export type CursoAtuacao = {
+    curso: string
+}
+
+export type Orientador = {
+    cpf: string
+    nome: string
+    email: string
+    senha: string
+    linhasOrientacao: LinhaOrientacao[]
+    cursosAtuacao: CursoAtuacao[]
+    alunosOrientados: AlunoOrientandoFormValues[]
+}
+  
