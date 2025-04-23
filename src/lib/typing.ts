@@ -11,6 +11,7 @@ export type AlunoOrientando = {
 }
 
 export type Trabalho = {
+    id: number
     tema: string
     objetivo: string
     questaoProblema: string
