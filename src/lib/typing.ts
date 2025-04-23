@@ -1,4 +1,4 @@
-export type AlunoOrientandoFormValues = {
+export type AlunoOrientando = {
     nome: string
     matricula: number
     curso: string
@@ -7,8 +7,7 @@ export type AlunoOrientandoFormValues = {
     semestre: number
     haDependencia: boolean
     email: string
-    possuiProf: boolean
-    professorOrientador: string | undefined
+    professorOrientadorCpf: string | undefined
 }
 
 export type Trabalho = {
@@ -35,6 +34,6 @@ export type Orientador = {
     senha: string
     linhasOrientacao: LinhaOrientacao[]
     cursosAtuacao: CursoAtuacao[]
-    alunosOrientados: AlunoOrientandoFormValues[]
+    alunosOrientados: AlunoOrientando[]
 }
   
