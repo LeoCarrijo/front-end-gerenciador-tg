@@ -19,9 +19,9 @@ export type Trabalho = {
 }
 
 export type LinhaOrientacao = {
+    id: number
     linha: string
-    professorOrientadorCpf: string
-    cpfs: string
+    orientadoresCpfs: string[]
 }
 
 export type CursoAtuacao = {
