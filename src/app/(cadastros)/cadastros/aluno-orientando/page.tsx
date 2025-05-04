@@ -24,6 +24,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import RadioAluno from '@/components/RadioAluno';
 import { createAlunoOrientando } from "@/actions/cadastros/aluno-orientando/actions";
+import { getOrientadores } from '@/actions/relatorios/orientador/actions';
+import { Orientador } from '@/lib/typing';
 
 const trabalhoSchema = z.object({
     tema: z.string(),
@@ -32,38 +34,39 @@ const trabalhoSchema = z.object({
     alunoOrientadoRa: z.string()
 });
 
+const orientadores = await getOrientadores()
+
 function AlunoOrientandoPage() {
+
     const formSchema = z.object({
-        nome: z.string().min(1, { message: "Nome obrigatório" }),
         matricula: z.string(),
+        nome: z.string(),
+        email: z.string().email(),
+        senha: z.string(),
         curso: z.string(),
         turma: z.string(),
         periodo: z.enum(['matutino', 'noturno']),
         semestre: z.string(),
-        haDependencia: z.boolean(),
-        email: z.string().email(),
-        possuiProf: z.boolean(),
+        filaDependencia: z.boolean(),
         professorOrientadorCpf: z.string().optional(),
-        senha: z.string(),
-        trabalho: z.array(trabalhoSchema)
+        trabalhos: z.array(trabalhoSchema),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         mode: "onSubmit",
         resolver: zodResolver(formSchema),
         defaultValues: {
-            nome: "",
             matricula: "",
+            nome: "",
+            email: "",
+            senha: "",
             curso: "",
             turma: "",
             periodo: "matutino",
             semestre: "",
-            haDependencia: false,
-            email: "",
-            possuiProf: false,
+            filaDependencia: false,
             professorOrientadorCpf: undefined,
-            senha: "12345",
-            trabalho: []
+            trabalhos: []
         }
     })
 
@@ -88,6 +91,21 @@ function AlunoOrientandoPage() {
                 >
                     <FormField
                         control={form.control}
+                        name="matricula"
+                        render={({ field }) => {
+                            return (
+                                <FormItem className="flex flex-col gap-1">
+                                    <FormLabel>Matrícula</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Digite o RA do aluno" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }}
+                    />
+                    <FormField
+                        control={form.control}
                         name="nome"
                         render={({ field }) => {
                             return (
@@ -102,18 +120,29 @@ function AlunoOrientandoPage() {
                     />
                     <FormField
                         control={form.control}
-                        name="matricula"
-                        render={({ field }) => {
-                            return (
-                                <FormItem className="flex flex-col gap-1">
-                                    <FormLabel>Matrícula</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Digite o RA do aluno" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )
-                        }}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col gap-1">
+                                <FormLabel>E-mail</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o e-mail institucional do aluno" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="senha"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col gap-1">
+                                <FormLabel>Senha</FormLabel>
+                                <FormControl>
+                                    <Input type="password" placeholder="Crie uma senha para o aluno" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
                     <div className="flex gap-1 w-full">
                         <FormField
@@ -148,8 +177,8 @@ function AlunoOrientandoPage() {
                             control={form.control}
                             name="periodo"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col gap-1 w-full">
-                                    <FormLabel>Turma</FormLabel>
+                                <FormItem className="flex flex-col gap-1 w-full justify-center">
+                                    <FormLabel>Período</FormLabel>
                                     <FormControl className="flex gap-2">
                                         <RadioAluno value={field.value} onChange={field.onChange} />
                                     </FormControl>
@@ -175,61 +204,21 @@ function AlunoOrientandoPage() {
                     </div>
                     <FormField
                         control={form.control}
-                        name="haDependencia"
-                        render={({ field }) => {
-                            return (
-                                <FormItem className="flex flex-col gap-1">
-                                    <FormLabel>Há dependência?</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            defaultValue={field.value ? "sim" : "nao"}
-                                            onValueChange={(value) => {
-                                                field.onChange(value === "sim")
-                                            }}>
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Selecione se o aluno tem dependência" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="sim">Sim</SelectItem>
-                                                <SelectItem value="nao">Não</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )
-                        }}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="email"
+                        name="filaDependencia"
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1">
-                                <FormLabel>E-mail</FormLabel>
-                                <FormControl>
-                                    <Input type="text" placeholder="Digite o e-mail institucional do aluno" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="possuiProf"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-col gap-1">
-                                <FormLabel>Possui Professor Orientador?</FormLabel>
+                                <FormLabel htmlFor='filaDependencia'>Possui Professor Orientador?</FormLabel>
                                 <FormControl className="flex gap-1">
                                     <div>
                                         <Checkbox
-                                            id="possui-prof"
+                                            id="filaDependencia"
                                             onCheckedChange={(checked) => {
                                                 field.onChange(checked)
                                                 form.setValue("professorOrientadorCpf", undefined)
                                             }}
                                             checked={field.value}
                                         />
-                                        <label htmlFor="possui-prof" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                        <label htmlFor="filaDependencia" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                             Sim
                                         </label>
                                     </div>
@@ -245,7 +234,7 @@ function AlunoOrientandoPage() {
                             <FormItem className="flex flex-col gap-1">
                                 <FormLabel>Professor Orientador</FormLabel>
                                 <FormControl>
-                                    {form.watch("possuiProf") ?
+                                    {form.watch("filaDependencia") ?
                                         <Select
                                             onValueChange={field.onChange}
                                             value={field.value}>
@@ -253,7 +242,11 @@ function AlunoOrientandoPage() {
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="70264861876">70264861876</SelectItem>
+                                                {orientadores.map((orientador: Orientador) => {
+                                                    return (
+                                                        <SelectItem key={orientador.cpf} value={orientador.cpf}>{orientador.nome}</SelectItem>
+                                                    )
+                                                })}
                                             </SelectContent>
                                         </Select>
                                         :
@@ -262,7 +255,11 @@ function AlunoOrientandoPage() {
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="70264861876">70264861876</SelectItem>
+                                                {orientadores.map((orientador: Orientador) => {
+                                                    return (
+                                                        <SelectItem key={orientador.cpf} value={orientador.cpf}>{orientador.nome}</SelectItem>
+                                                    )
+                                                })}
                                             </SelectContent>
                                         </Select>
                                     }
