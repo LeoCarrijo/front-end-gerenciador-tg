@@ -14,7 +14,7 @@ interface Props {
 
 function CardFatecHeader({ description = 'Titulo Padrão do Componente' }: Props) {
     return (
-        <CardHeader>
+        <CardHeader className='min-w-[450px]'>
             <CardTitle className="flex items-center gap-8 overflow-hidden">
                 <LogoFatec />
                 <div className="flex items-center gap-4 justify-end w-full">
