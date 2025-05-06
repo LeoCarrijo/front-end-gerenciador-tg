@@ -144,12 +144,12 @@ function AlunoOrientandoPage() {
                             </FormItem>
                         )}
                     />
-                    <div className="flex gap-1 w-full">
+                    <div className="flex gap-2 w-full">
                         <FormField
                             control={form.control}
                             name="curso"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col gap-1">
+                                <FormItem className="flex flex-col gap-1 w-full">
                                     <FormLabel>Curso</FormLabel>
                                     <FormControl>
                                         <Input type="text" placeholder="Selecione o curso do aluno" {...field} />
@@ -162,7 +162,7 @@ function AlunoOrientandoPage() {
                             control={form.control}
                             name="turma"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col gap-1">
+                                <FormItem className="flex flex-col gap-1 w-full">
                                     <FormLabel>Turma</FormLabel>
                                     <FormControl>
                                         <Input type="text" placeholder="Selecione a turma do aluno" {...field} />
@@ -172,7 +172,7 @@ function AlunoOrientandoPage() {
                             )}
                         />
                     </div>
-                    <div className="flex gap-1 w-full">
+                    <div className="flex gap-2 w-full">
                         <FormField
                             control={form.control}
                             name="periodo"
@@ -191,7 +191,7 @@ function AlunoOrientandoPage() {
                                 control={form.control}
                                 name="semestre"
                                 render={({ field }) => (
-                                    <FormItem className="flex flex-col gap-1">
+                                    <FormItem className="flex flex-col gap-1 w-full">
                                         <FormLabel>Semestre</FormLabel>
                                         <FormControl>
                                             <Input type="text" placeholder="Selecione o semestre do aluno" {...field} />
@@ -206,7 +206,7 @@ function AlunoOrientandoPage() {
                         control={form.control}
                         name="filaDependencia"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-1">
+                            <FormItem className="flex flex-col gap-2">
                                 <FormLabel htmlFor='filaDependencia'>Possui Professor Orientador?</FormLabel>
                                 <FormControl className="flex gap-1">
                                     <div>
