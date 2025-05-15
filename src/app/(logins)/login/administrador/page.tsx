@@ -15,8 +15,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginAdmin } from '@/actions/logins/administrador/actions';
-
-
+import { generateToast } from '@/lib/utils';
 
 function AdministradoresLoginPage() {
     const formSchema = z.object({
@@ -35,14 +34,11 @@ function AdministradoresLoginPage() {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Valores do formulário:", values)
         try {
-            const response = await LoginAdmin(values)
-            console.log("Login realizado com sucesso:", response)
-            alert("Login realizado com sucesso!")
+            await LoginAdmin(values)
+            generateToast("Login realizado com sucesso!", true)
         } catch (error) {
-            console.error("Erro ao fazer login:", error)
-            alert("Erro ao fazer login. Verifique suas credenciais.")
+            generateToast("Erro ao fazer login. Verifique suas credenciais.", false)
         }
     }
 
@@ -50,18 +46,18 @@ function AdministradoresLoginPage() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <CardFatec
-                    description={`Login de Administrador`}
-                    buttonText={`Logar`}
+                    description="Login de Administrador"
+                    buttonText="Logar"
                     buttonFunction={() => { }}
                 >
                     <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-1">
-                                <FormLabel htmlFor="email">E-mail</FormLabel>
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>E-mail</FormLabel>
                                 <FormControl>
-                                    <Input {...field} type="email" placeholder="Digite seu e-mail" />
+                                    <Input {...field} type="email" placeholder="Digite seu e-mail" id={field.name} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -71,10 +67,10 @@ function AdministradoresLoginPage() {
                         control={form.control}
                         name='senha'
                         render={({ field }) => (
-                            <FormItem className='flex flex-col gap-1'>
-                                <FormLabel>Senha</FormLabel>
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>Senha</FormLabel>
                                 <FormControl>
-                                    <Input {...field} type='password' placeholder='Digite sua senha' />
+                                    <Input {...field} type='password' placeholder='Digite sua senha' id={field.name} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -83,10 +79,10 @@ function AdministradoresLoginPage() {
                         control={form.control}
                         name='chave'
                         render={({ field }) => (
-                            <FormItem className='flex flex-col gap-1'>
-                                <FormLabel>Chave</FormLabel>
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>Chave</FormLabel>
                                 <FormControl>
-                                    <Input {...field} type='password' placeholder='Insira sua chave secreta para login' />
+                                    <Input {...field} type='password' placeholder='Insira sua chave secreta para login' id={field.name} />
                                 </FormControl>
                             </FormItem>
                         )}

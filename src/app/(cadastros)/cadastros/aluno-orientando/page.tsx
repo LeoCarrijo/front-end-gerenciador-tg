@@ -14,7 +14,6 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
 } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
@@ -26,6 +25,7 @@ import RadioAluno from '@/components/RadioAluno';
 import { createAlunoOrientando } from "@/actions/cadastros/aluno-orientando/actions";
 import { getOrientadores } from '@/actions/relatorios/orientador/actions';
 import { Orientador } from '@/lib/typing';
+import { generateToast } from '@/lib/utils';
 
 const trabalhoSchema = z.object({
     tema: z.string(),
@@ -71,13 +71,11 @@ function AlunoOrientandoPage() {
     })
 
     async function onSumbit(values: z.infer<typeof formSchema>) {
-        console.log("Form values:", values);
         try {
-            const response = await createAlunoOrientando(values);
-            console.log("Aluno cadastrado com sucesso:", response);
-            alert("Aluno cadastrado com sucesso!");
+            await createAlunoOrientando(values);
+            generateToast("Aluno cadastrado com sucesso", true);
         } catch (error) {
-            alert("Erro ao cadastrar aluno. Verifique os dados e tente novamente.");
+            generateToast("Erro ao cadastrar aluno. Verifique as informações", false);
         }
     }
 
@@ -85,49 +83,43 @@ function AlunoOrientandoPage() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSumbit)}>
                 <CardFatec
-                    description={`Cadastro de Aluno Orientando`}
-                    buttonText={`Cadastrar`}
+                    description="Cadastro de Aluno Orientando"
+                    buttonText="Cadastrar"
                     buttonFunction={() => { }}
                 >
                     <FormField
                         control={form.control}
                         name="matricula"
-                        render={({ field }) => {
-                            return (
-                                <FormItem className="flex flex-col gap-1">
-                                    <FormLabel>Matrícula</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Digite o RA do aluno" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )
-                        }}
+                        render={({ field }) => (
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>Matrícula</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o RA do aluno" id={field.name} {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
                     <FormField
                         control={form.control}
                         name="nome"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel>Nome</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Digite o nome do aluno" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>)
-                        }}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel htmlFor={field.name}>Nome</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o nome do aluno" id={field.name} {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
                     <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-1">
-                                <FormLabel>E-mail</FormLabel>
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>E-mail</FormLabel>
                                 <FormControl>
-                                    <Input type="text" placeholder="Digite o e-mail institucional do aluno" {...field} />
+                                    <Input type="text" placeholder="Digite o e-mail institucional do aluno" id={field.name} {...field} />
                                 </FormControl>
-                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -135,26 +127,24 @@ function AlunoOrientandoPage() {
                         control={form.control}
                         name="senha"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-1">
-                                <FormLabel>Senha</FormLabel>
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>Senha</FormLabel>
                                 <FormControl>
-                                    <Input type="password" placeholder="Crie uma senha para o aluno" {...field} />
+                                    <Input type="password" placeholder="Crie uma senha para o aluno" id={field.name} {...field} />
                                 </FormControl>
-                                <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <div className="flex gap-2 w-full">
+                    <div className='form-field-group'>
                         <FormField
                             control={form.control}
                             name="curso"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col gap-1 w-full">
-                                    <FormLabel>Curso</FormLabel>
+                                <FormItem className='form-item w-full'>
+                                    <FormLabel htmlFor={field.name}>Curso</FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="Selecione o curso do aluno" {...field} />
+                                        <Input type="text" placeholder="Selecione o curso do aluno" id={field.name} {...field} />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -162,41 +152,38 @@ function AlunoOrientandoPage() {
                             control={form.control}
                             name="turma"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col gap-1 w-full">
-                                    <FormLabel>Turma</FormLabel>
+                                <FormItem className='form-item w-full'>
+                                    <FormLabel htmlFor={field.name}>Turma</FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="Selecione a turma do aluno" {...field} />
+                                        <Input type="text" placeholder="Selecione a turma do aluno" id={field.name} {...field} />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                     </div>
-                    <div className="flex gap-2 w-full">
+                    <div className='form-field-group'>
                         <FormField
                             control={form.control}
                             name="periodo"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col gap-1 w-full justify-center">
+                                <FormItem className='flex flex-col gap-1 w-full justify-center'>
                                     <FormLabel>Período</FormLabel>
-                                    <FormControl className="flex gap-2">
+                                    <FormControl className='flex gap-2'>
                                         <RadioAluno value={field.value} onChange={field.onChange} />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <div className="flex gap-1 w-full">
+                        <div className='flex gap-1 w-full'>
                             <FormField
                                 control={form.control}
                                 name="semestre"
                                 render={({ field }) => (
-                                    <FormItem className="flex flex-col gap-1 w-full">
-                                        <FormLabel>Semestre</FormLabel>
+                                    <FormItem className='form-item w-full'>
+                                        <FormLabel htmlFor={field.name}>Semestre</FormLabel>
                                         <FormControl>
-                                            <Input type="text" placeholder="Selecione o semestre do aluno" {...field} />
+                                            <Input type="text" placeholder="Selecione o semestre do aluno" id={field.name} {...field} />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -206,24 +193,23 @@ function AlunoOrientandoPage() {
                         control={form.control}
                         name="filaDependencia"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-2">
-                                <FormLabel htmlFor='filaDependencia'>Possui Professor Orientador?</FormLabel>
-                                <FormControl className="flex gap-1">
+                            <FormItem className='form-item-gap2'>
+                                <FormLabel>Possui Professor Orientador?</FormLabel>
+                                <FormControl className='flex gap-1'>
                                     <div>
                                         <Checkbox
-                                            id="filaDependencia"
+                                            id={field.name}
                                             onCheckedChange={(checked) => {
                                                 field.onChange(checked)
                                                 form.setValue("professorOrientadorCpf", undefined)
                                             }}
                                             checked={field.value}
                                         />
-                                        <label htmlFor="filaDependencia" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                        <label htmlFor={field.name} className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                                             Sim
                                         </label>
                                     </div>
                                 </FormControl>
-                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -231,40 +217,36 @@ function AlunoOrientandoPage() {
                         control={form.control}
                         name="professorOrientadorCpf"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-1">
-                                <FormLabel>Professor Orientador</FormLabel>
+                            <FormItem className='form-item'>
+                                <FormLabel htmlFor={field.name}>Professor Orientador</FormLabel>
                                 <FormControl>
                                     {form.watch("filaDependencia") ?
                                         <Select
                                             onValueChange={field.onChange}
-                                            value={field.value}>
-                                            <SelectTrigger className="w-full">
+                                            value={field.value}
+                                        >
+                                            <SelectTrigger id={field.name} className='w-full'>
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {orientadores.map((orientador: Orientador) => {
-                                                    return (
-                                                        <SelectItem key={orientador.cpf} value={orientador.cpf}>{orientador.nome}</SelectItem>
-                                                    )
-                                                })}
+                                                {orientadores.map((orientador: Orientador) => (
+                                                    <SelectItem key={orientador.cpf} value={orientador.cpf}>{orientador.nome}</SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                         :
                                         <Select disabled value={field.value}>
-                                            <SelectTrigger className="w-full">
+                                            <SelectTrigger id={field.name} className='w-full'>
                                                 <SelectValue placeholder="Selecione o nome do professor orientador" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {orientadores.map((orientador: Orientador) => {
-                                                    return (
-                                                        <SelectItem key={orientador.cpf} value={orientador.cpf}>{orientador.nome}</SelectItem>
-                                                    )
-                                                })}
+                                                {orientadores.map((orientador: Orientador) => (
+                                                    <SelectItem key={orientador.cpf} value={orientador.cpf}>{orientador.nome}</SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     }
                                 </FormControl>
-                                <FormMessage />
                             </FormItem>
                         )}
                     />

@@ -128,3 +128,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .form-item {
+    @apply flex flex-col gap-1;
+  }
+  .table-container {
+    @apply bg-background overflow-hidden rounded-md border;
+  }
+  .table-head-cell {
+    @apply h-9 py-2;
+  }
+  .table-body-cell {
+    @apply py-2;
+  }
+  .form-field-group {
+    @apply flex gap-2 w-full;
+  }
+  .form-item-gap2 {
+    @apply flex flex-col gap-2;
+  }
+}

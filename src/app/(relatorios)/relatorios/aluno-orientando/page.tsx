@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/table"
 import { getAlunosOrientando } from '@/actions/relatorios/aluno-orientando/actions'
 import { AlunoOrientando } from '@/lib/typing'
+import { generateToast } from '@/lib/utils'
 
 async function RelatoriosPage() {
     async function fetchAlunosOrientando() {
         try {
             return await getAlunosOrientando()
         } catch (error) {
-            console.error("Erro ao buscar os alunos orientando: ", error)
-            alert("Erro ao buscar os alunos orientando")
+            generateToast("Erro ao buscar os alunos orientando", false)
         }
     }
 
@@ -25,38 +25,36 @@ async function RelatoriosPage() {
 
     return (
         <CardFatecRelatorios description={'Relatórios - Alunos Orientandos e Professores Orientadores'}>
-            <div className={`bg-background overflow-hidden rounded-md border`}>
+            <div className='table-container'>
                 <Table>
                     <TableHeader>
-                        <TableRow className="bg-muted/50">
-                            <TableHead className="h-9 py-2">Nome do Aluno</TableHead>
-                            <TableHead className="h-9 py-2">RA</TableHead>
-                            <TableHead className="h-9 py-2">Curso</TableHead>
-                            <TableHead className="h-9 py-2">Turma</TableHead>
-                            <TableHead className="h-9 py-2">Período</TableHead>
-                            <TableHead className="h-9 py-2">Semestre</TableHead>
-                            <TableHead className="h-9 py-2">Possui Dependência</TableHead>
-                            <TableHead className="h-9 py-2">E-mail do Aluno</TableHead>
-                            <TableHead className="h-9 py-2">CPF do Professor</TableHead>
+                        <TableRow className='bg-muted/50'>
+                            <TableHead className='table-head-cell'>Nome do Aluno</TableHead>
+                            <TableHead className='table-head-cell'>RA</TableHead>
+                            <TableHead className='table-head-cell'>Curso</TableHead>
+                            <TableHead className='table-head-cell'>Turma</TableHead>
+                            <TableHead className='table-head-cell'>Período</TableHead>
+                            <TableHead className='table-head-cell'>Semestre</TableHead>
+                            <TableHead className='table-head-cell'>Possui Dependência</TableHead>
+                            <TableHead className='table-head-cell'>E-mail do Aluno</TableHead>
+                            <TableHead className='table-head-cell'>CPF do Professor</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {
-                            alunosOrientando.map((aluno: AlunoOrientando) => {
-                                return (
-                                    <TableRow key={aluno.matricula}>
-                                        <TableCell className='py-2'>{aluno.nome}</TableCell>
-                                        <TableCell className='py-2'>{aluno.matricula}</TableCell>
-                                        <TableCell className='py-2'>{aluno.curso}</TableCell>
-                                        <TableCell className='py-2'>{aluno.turma || 'N/A'}</TableCell>
-                                        <TableCell className='py-2'>{aluno.periodo}</TableCell>
-                                        <TableCell className='py-2'>{aluno.semestre}</TableCell>
-                                        <TableCell className='py-2'>{aluno.haDependencia ? 'Sim' : 'Não'}</TableCell>
-                                        <TableCell className='py-2'>{aluno.email}</TableCell>
-                                        <TableCell className='py-2'>{aluno.professorOrientadorCpf || 'N/A'}</TableCell>
-                                    </TableRow>
-                                )
-                            })
+                            alunosOrientando.map((aluno: AlunoOrientando) => (
+                                <TableRow key={aluno.matricula}>
+                                    <TableCell className='table-body-cell'>{aluno.nome}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.matricula}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.curso}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.turma || 'N/A'}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.periodo}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.semestre}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.haDependencia ? 'Sim' : 'Não'}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.email}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.professorOrientadorCpf || 'N/A'}</TableCell>
+                                </TableRow>
+                            ))
                         }
                     </TableBody>
                 </Table>

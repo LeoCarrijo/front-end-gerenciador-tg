@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import CardFatec from '@/components/CardFatec';
 import { createOrientador } from '@/actions/cadastros/orientador/actions';
+import { generateToast } from '@/lib/utils';
 
 // Link para o schema do Prisma com os nomes das variáveis
 // https://github.com/MotahPedro/Gerenciador-de-TG/blob/develop/back-end/prisma/schema.prisma
@@ -71,14 +72,11 @@ function OrientadorPage() {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         try {
-            const response = await createOrientador(values)
-            console.log(response)
-            alert(`Professor Orientador Cadastrado!`)
+            await createOrientador(values)
+            generateToast("Professor Orientador Cadastrado!", true)
         } catch (error) {
-            console.error("Erro ao cadastrar professor orientador:", error)
-            alert(`Erro ao cadastrar professor orientador: ${error}`)
+            generateToast("Erro ao cadastrar professor orientador:", false)
         }
     }
 
@@ -86,136 +84,61 @@ function OrientadorPage() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <CardFatec
-                    description={`Cadastro de Professor Orientador`}
-                    buttonText={`Cadastrar`}
+                    description="Cadastro de Professor Orientador"
+                    buttonText="Cadastrar"
                     buttonFunction={() => { }}
                 >
                     <FormField
                         control={form.control}
                         name="cpf"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='cpf'>CPF</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Digite o CPF do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel htmlFor={field.name}>CPF</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o CPF do professor" {...field} id={field.name} />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
                     <FormField
                         control={form.control}
                         name="nome"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='nome'>Nome</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Digite o nome do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel htmlFor={field.name}>Nome</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o nome do professor" {...field} id={field.name} />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
                     <FormField
                         control={form.control}
                         name="email"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='email'>Email</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Digite o email do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel htmlFor={field.name}>Email</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Digite o email do professor" {...field} id={field.name} />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
                     <FormField
                         control={form.control}
                         name="senha"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='senha'>Senha</FormLabel>
-                                    <FormControl>
-                                        <Input type="password" placeholder="Digite a senha do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel htmlFor={field.name}>Senha</FormLabel>
+                                <FormControl>
+                                    <Input type="password" placeholder="Digite a senha do professor" {...field} id={field.name} />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
-                    {/* <FormField
-                        control={form.control}
-                        name="linhasOrientacao"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='linhasOrientacao'>Linhas De Orientacao</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Selecione as linhas do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="cursosAtuacao"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='cursosAtuacao'>Curso de Atuação</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Selecione os cursos de atuação do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="alunosOrientados"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel htmlFor='alunosOrientados'>Alunos Orientandos</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Selecione os alunos orientandos do professor" {...field} />
-                                    </FormControl>
-                                </FormItem>)
-                        }}
-                    /> */}
                 </CardFatec>
             </form>
         </Form >
-        // <CardFatec
-        //     description={`Cadastro de Professor Orientador`}
-        //     buttonText={`Cadastrar`}
-        //     buttonFunction={() => { alert(`Professor Orientador Cadastrado!`) }}
-        // >
-        //     <div className="flex flex-col gap-1">
-        //         <Label htmlFor="cpf">CPF</Label>
-        //         <Input name="cpf" id="cpf" type="text" placeholder="Digite o CPF do professor" />
-        //     </div>
-        //     <div className="flex flex-col gap-1">
-        //         <Label htmlFor="nome">Nome</Label>
-        //         <Input name="nome" id="nome" type="text" placeholder="Digite o nome do professor" />
-        //     </div>
-        //     <div className="flex flex-col gap-1">
-        //         <Label htmlFor="linhaOrientacao">Linha de Orientação</Label>
-        //         <Input name="linhaOrientacao" id="linhaOrientacao" type="text" placeholder="Digite a linha da orientação" />
-        //     </div>
-        //     <Button className="bg-gray-500 cursor-pointer text-white self-start" variant="default">Adicionar Linha de Orientação</Button>
-        //     <div className="flex flex-col gap-1">
-        //         <Label htmlFor="quantidadeInstituicoes">Quantidade de Instituições que Leciona</Label>
-        //         <Input name="quantidadeInstituicoes" id="quantidadeInstituicoes" type="number" placeholder="Digite a quantidade de instituições" />
-        //     </div>
-        //     <div className="flex flex-col gap-1">
-        //         <Label htmlFor="cursosAtuacao">Cursos de Atuação</Label>
-        //         <Input name="cursosAtuacao" id="cursosAtuacao" type="text" placeholder="Digite os cursos de atuação" />
-        //     </div>
-        //     <Button className="bg-gray-500 cursor-pointer text-white self-start" variant="default">Adicionar Curso de Atuação</Button>
-        //     <div className="flex flex-col gap-1">
-        //         <Label htmlFor="quantidadeAlunos">Quantidade de Alunos Orientandos</Label>
-        //         <Input name="quantidadeAlunos" id="quantidadeAlunos" type="num" placeholder="Digite a quantidade de alunos orientandos" />
-        //     </div>
-        // </CardFatec>
     );
 }
 

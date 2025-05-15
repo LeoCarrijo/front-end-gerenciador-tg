@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/table"
 import { LinhaOrientacao } from '@/lib/typing'
 import { getLinhasOrientacao } from "@/actions/relatorios/linha-orientacao/actions";
+import { generateToast } from '@/lib/utils';
 
 async function RelatoriosLinhaOrientacaoPage() {
     async function fetchLinhasOrientacao() {
         try {
             return await getLinhasOrientacao()
         } catch (error) {
-            console.error("Erro ao buscar as linhas de orientação: ", error)
-            alert("Erro ao buscar as linhas de orientação")
+            generateToast("Erro ao buscar as linhas de orientação", false)
         }
     }
 
@@ -27,23 +27,21 @@ async function RelatoriosLinhaOrientacaoPage() {
         <CardFatecRelatorios
             description='Relatórios - Linha de Orientação'
         >
-            <Table className="bg-background overflow-hidden rounded-md border justify-center">
+            <Table className='table-container justify-center'>
                 <TableHeader>
-                    <TableRow className="bg-muted/50">
-                        <TableHead className="h-9 py-2">ID</TableHead>
-                        <TableHead className="h-9 py-2">Tema</TableHead>
+                    <TableRow className='bg-muted/50'>
+                        <TableHead className='table-head-cell'>ID</TableHead>
+                        <TableHead className='table-head-cell'>Tema</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
-                        linhas.map((linha: LinhaOrientacao) => {
-                            return (
-                                <TableRow key={linha.id}>
-                                    <TableCell className='py-2'>{linha.id}</TableCell>
-                                    <TableCell className='py-2'>{linha.linha}</TableCell>
-                                </TableRow>
-                            )
-                        })
+                        linhas.map((linha: LinhaOrientacao) => (
+                            <TableRow key={linha.id}>
+                                <TableCell className='table-body-cell'>{linha.id}</TableCell>
+                                <TableCell className='table-body-cell'>{linha.linha}</TableCell>
+                            </TableRow>
+                        ))
                     }
                 </TableBody>
             </Table>

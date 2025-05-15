@@ -8,15 +8,15 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { AlunoOrientando, CursoAtuacao, LinhaOrientacao, Orientador } from "@/lib/typing";
+import { LinhaOrientacao, Orientador } from "@/lib/typing";
+import { generateToast } from "@/lib/utils";
 
 async function RelatorioOrientadorPage() {
     async function fetchOrientadores() {
         try {
             return await getOrientadores()
         } catch (error) {
-            console.error("Erro ao buscar os orientadores: ", error)
-            alert("Erro ao buscar os orientadores")
+            generateToast("Erro ao buscar os orientadores", false)
         }
     }
 
@@ -24,38 +24,34 @@ async function RelatorioOrientadorPage() {
 
     return (
         <CardFatecRelatorios description="Relatórios - Professores Orientadores">
-            <Table className={`bg-background overflow-hidden rounded-md border`}>
+            <Table className='table-container'>
                 <TableHeader>
-                    <TableRow className="bg-muted/50">
-                        <TableHead className="h-9 py-2">CPF do Orientador</TableHead>
-                        <TableHead className="h-9 py-2">Nome</TableHead>
-                        <TableHead className="h-9 py-2">E-mail</TableHead>
-                        <TableHead className="h-9 py-2">Linhas de Orientação</TableHead>
+                    <TableRow className='bg-muted/50'>
+                        <TableHead className='table-head-cell'>CPF do Orientador</TableHead>
+                        <TableHead className='table-head-cell'>Nome</TableHead>
+                        <TableHead className='table-head-cell'>E-mail</TableHead>
+                        <TableHead className='table-head-cell'>Linhas de Orientação</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
-                        orientadores.map((orientador: Orientador) => {
-                            return (
-                                <TableRow key={orientador.cpf}>
-                                    <TableCell className='py-2'>{orientador.cpf}</TableCell>
-                                    <TableCell className='py-2'>{orientador.nome}</TableCell>
-                                    <TableCell className='py-2'>{orientador.email}</TableCell>
-                                    <TableCell>
-                                        {
-                                            orientador.linhasOrientacao.map((linha: LinhaOrientacao) => {
-                                                return (
-                                                    <div key={linha.linha}>
-                                                        <p className="py-1">{linha.linha}</p>
-                                                        <hr />
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })
+                        orientadores.map((orientador: Orientador) => (
+                            <TableRow key={orientador.cpf}>
+                                <TableCell className='table-body-cell'>{orientador.cpf}</TableCell>
+                                <TableCell className='table-body-cell'>{orientador.nome}</TableCell>
+                                <TableCell className='table-body-cell'>{orientador.email}</TableCell>
+                                <TableCell>
+                                    {
+                                        orientador.linhasOrientacao.map((linha: LinhaOrientacao) => (
+                                            <div key={linha.linha}>
+                                                <p className='py-1'>{linha.linha}</p>
+                                                <hr />
+                                            </div>
+                                        ))
+                                    }
+                                </TableCell>
+                            </TableRow>
+                        ))
                     }
                 </TableBody>
             </Table>
