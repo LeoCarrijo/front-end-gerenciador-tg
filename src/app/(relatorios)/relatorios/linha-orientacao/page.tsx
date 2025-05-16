@@ -28,7 +28,7 @@ async function RelatoriosLinhaOrientacaoPage() {
             description='Relatórios - Linha de Orientação'
         >
             <div className='table-container'>
-                <Table className='table-container justify-center'>
+                <Table>
                     <TableHeader>
                         <TableRow className='bg-muted/50'>
                             <TableHead className='table-head-cell'>ID</TableHead>
