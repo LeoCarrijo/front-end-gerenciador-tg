@@ -27,24 +27,26 @@ async function RelatoriosLinhaOrientacaoPage() {
         <CardFatecRelatorios
             description='Relatórios - Linha de Orientação'
         >
-            <Table className='table-container justify-center'>
-                <TableHeader>
-                    <TableRow className='bg-muted/50'>
-                        <TableHead className='table-head-cell'>ID</TableHead>
-                        <TableHead className='table-head-cell'>Tema</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {
-                        linhas.map((linha: LinhaOrientacao) => (
-                            <TableRow key={linha.id}>
-                                <TableCell className='table-body-cell'>{linha.id}</TableCell>
-                                <TableCell className='table-body-cell'>{linha.linha}</TableCell>
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </Table>
+            <div className='table-container'>
+                <Table className='table-container justify-center'>
+                    <TableHeader>
+                        <TableRow className='bg-muted/50'>
+                            <TableHead className='table-head-cell'>ID</TableHead>
+                            <TableHead className='table-head-cell'>Tema</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {
+                            linhas.map((linha: LinhaOrientacao) => (
+                                <TableRow key={linha.id}>
+                                    <TableCell className='table-body-cell'>{linha.id}</TableCell>
+                                    <TableCell className='table-body-cell'>{linha.linha}</TableCell>
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </div>
         </CardFatecRelatorios>
     )
 }
