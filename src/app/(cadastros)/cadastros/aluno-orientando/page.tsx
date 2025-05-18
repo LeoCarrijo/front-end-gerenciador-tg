@@ -81,7 +81,7 @@ function AlunoOrientandoPage() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSumbit)}>
+            <form onSubmit={form.handleSubmit(onSumbit)} className='m-auto self-center'>
                 <CardFatec
                     description="Cadastro de Aluno Orientando"
                     buttonText="Cadastrar"

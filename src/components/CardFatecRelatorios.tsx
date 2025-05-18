@@ -9,7 +9,7 @@ interface Props {
 
 function CardFatecRelatorios({ description = 'Título Principal do CardFatecRelatorios', children }: Props) {
     return (
-        <Card className="shadow-lg">
+        <Card className="shadow-lg m-auto self-center">
             <FatecCardHeader description={description} />
             <CardContent className="flex flex-col gap-4">
                 {children}

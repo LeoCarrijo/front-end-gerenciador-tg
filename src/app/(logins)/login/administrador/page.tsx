@@ -44,7 +44,7 @@ function AdministradoresLoginPage() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='m-auto self-center'>
                 <CardFatec
                     description="Login de Administrador"
                     buttonText="Logar"

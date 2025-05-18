@@ -48,7 +48,7 @@ function Page() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='m-auto self-center'>
                 <CardFatec
                     description="Envio de Atividades"
                     buttonText="Enviar"

@@ -45,7 +45,7 @@ function LinhaOrientacaoPage() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='m-auto self-center'>
                 <CardFatec
                     description="Cadastro de Linha de Orientação"
                     buttonText="Cadastrar Linha de Orientação"
