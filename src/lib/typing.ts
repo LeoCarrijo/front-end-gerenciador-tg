@@ -5,7 +5,7 @@ export type AlunoOrientando = {
     turma: string
     periodo: "matutino" | "noturno"
     semestre: number
-    haDependencia: boolean
+    filaDependencia: boolean
     email: string
     professorOrientadorCpf: string | undefined
 }

@@ -50,7 +50,7 @@ async function RelatoriosPage() {
                                     <TableCell className='table-body-cell'>{aluno.turma || 'N/A'}</TableCell>
                                     <TableCell className='table-body-cell'>{aluno.periodo}</TableCell>
                                     <TableCell className='table-body-cell'>{aluno.semestre}</TableCell>
-                                    <TableCell className='table-body-cell'>{aluno.haDependencia ? 'Sim' : 'Não'}</TableCell>
+                                    <TableCell className='table-body-cell'>{aluno.filaDependencia ? 'Sim' : 'Não'}</TableCell>
                                     <TableCell className='table-body-cell'>{aluno.email}</TableCell>
                                     <TableCell className='table-body-cell'>{aluno.professorOrientadorCpf || 'N/A'}</TableCell>
                                 </TableRow>
