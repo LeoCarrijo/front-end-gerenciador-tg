@@ -135,32 +135,18 @@ function AlunoOrientandoPage() {
                             </FormItem>
                         )}
                     />
-                    <div className='form-field-group'>
-                        <FormField
-                            control={form.control}
-                            name="curso"
-                            render={({ field }) => (
-                                <FormItem className='form-item w-full'>
-                                    <FormLabel htmlFor={field.name}>Curso</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Selecione o curso do aluno" id={field.name} {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="turma"
-                            render={({ field }) => (
-                                <FormItem className='form-item w-full'>
-                                    <FormLabel htmlFor={field.name}>Turma</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Selecione a turma do aluno" id={field.name} {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="turma"
+                        render={({ field }) => (
+                            <FormItem className='form-item w-full'>
+                                <FormLabel htmlFor={field.name}>Turma</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Selecione a turma do aluno" id={field.name} {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                     <div className='form-field-group'>
                         <FormField
                             control={form.control}
