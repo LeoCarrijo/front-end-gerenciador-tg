@@ -45,6 +45,20 @@ export default function Homepage() {
       endpoint: "orientador",
     },
   ]
+  const linksLogins: { titulo: string; endpoint: string; }[] = [
+    {
+      titulo: "Administrador",
+      endpoint: "administrador",
+    },
+    {
+      titulo: "Aluno Orientando",
+      endpoint: "aluno-orientando",
+    },
+    {
+      titulo: "Orientador",
+      endpoint: "orientador",
+    },
+  ]
 
   return (
     <div className="flex flex-col p-4 min-h-screen w-full">
@@ -86,7 +100,7 @@ export default function Homepage() {
             ))}
           </div>
         </section>
-        <section className="homepage-main-section border-l-2">
+        <section className="homepage-main-section border-x-2">
           <h1 className="homepage-main-section-h1">Relatórios</h1>
           <div className="homepage-main-section-div">
             {linksRelatorios.map((link, i) => (
@@ -105,6 +119,29 @@ export default function Homepage() {
                   </span>
                 </Link>
                 {i < linksRelatorios.length - 1 && <hr className="my-2" />}
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className="homepage-main-section border-l-2">
+          <h1 className="homepage-main-section-h1">Logins</h1>
+          <div className="homepage-main-section-div">
+            {linksLogins.map((link, i) => (
+              <div key={link.endpoint}>
+                <Link
+                  href={`login/${link.endpoint}`}
+                  className="popover-link group"
+                >
+                  <div
+                    className="popover-link-div group-hover:w-full group-active:bg-red-400"
+                  />
+                  <span
+                    className="popover-link-span group-active:text-white"
+                  >
+                    {link.titulo}
+                  </span>
+                </Link>
+                {i < linksLogins.length - 1 && <hr className="my-2" />}
               </div>
             ))}
           </div>
