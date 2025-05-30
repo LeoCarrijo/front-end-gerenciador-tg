@@ -1,6 +1,6 @@
 export type AlunoOrientando = {
     nome: string
-    matricula: number
+    matricula: string
     curso: string
     turma: string
     periodo: "matutino" | "noturno"
