@@ -74,7 +74,7 @@ export default function Homepage() {
             <LogoSP />
           </div>
         </div>
-        <h1 className="text-center text-4xl mt-12 mb-4 underline">Gerenciador de TG's</h1>
+        <h1 className="text-center text-4xl mt-12 mb-4 underline">Gerenciador de TG&apos;s</h1>
       </header>
       <main className="flex h-full justify-center">
         <section className="flex flex-col items-center justify-center w-full border-r-2">
