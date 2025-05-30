@@ -31,6 +31,7 @@ async function RelatorioOrientadorPage() {
                             <TableHead className='table-head-cell'>CPF do Orientador</TableHead>
                             <TableHead className='table-head-cell'>Nome</TableHead>
                             <TableHead className='table-head-cell'>E-mail</TableHead>
+                            <TableHead className='table-head-cell'>Alunos Orientados</TableHead>
                             <TableHead className='table-head-cell'>Linhas de Orientação</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -41,14 +42,26 @@ async function RelatorioOrientadorPage() {
                                     <TableCell className='table-body-cell'>{orientador.cpf}</TableCell>
                                     <TableCell className='table-body-cell'>{orientador.nome}</TableCell>
                                     <TableCell className='table-body-cell'>{orientador.email}</TableCell>
-                                    <TableCell>
+                                    <TableCell className="table-body-cell">
                                         {
-                                            orientador.linhasOrientacao.map((linha: LinhaOrientacao) => (
-                                                <div key={linha.linha}>
-                                                    <p className='py-1'>{linha.linha}</p>
-                                                    <hr />
-                                                </div>
-                                            ))
+                                            orientador.alunosOrientados.length === 0 ? "N/A" :
+                                                orientador.alunosOrientados.map((matricula: string, i) => (
+                                                    <div key={matricula}>
+                                                        <p className='py-1'>{matricula}</p>
+                                                        {i < orientador.alunosOrientados.length - 1 && <hr />}
+                                                    </div>
+                                                ))
+                                        }
+                                    </TableCell>
+                                    <TableCell className="table-body-cell">
+                                        {
+                                            orientador.linhasOrientacao.length === 0 ? "N/A" :
+                                                orientador.linhasOrientacao.map((linha: LinhaOrientacao, i) => (
+                                                    <div key={linha.linha}>
+                                                        <p className='py-1'>{linha.linha}</p>
+                                                        {i < orientador.linhasOrientacao.length - 1 && <hr />}
+                                                    </div>
+                                                ))
                                         }
                                     </TableCell>
                                 </TableRow>
