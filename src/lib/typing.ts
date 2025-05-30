@@ -35,6 +35,6 @@ export type Orientador = {
     senha: string
     linhasOrientacao: LinhaOrientacao[]
     cursosAtuacao: CursoAtuacao[]
-    alunosOrientados: AlunoOrientando[]
+    alunosOrientados: string[]
 }
   
