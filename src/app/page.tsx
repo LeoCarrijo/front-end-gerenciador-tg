@@ -22,6 +22,10 @@ export default function Homepage() {
       titulo: "Orientador",
       endpoint: "orientador",
     },
+    {
+      titulo: "Adicionar Aluno a Orientador",
+      endpoint: "orientador/adicionar/aluno",
+    },
   ]
   const linksRelatorios: { titulo: string; endpoint: string; }[] = [
     {
