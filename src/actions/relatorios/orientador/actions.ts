@@ -14,3 +14,20 @@ export async function getOrientadores() {
         throw error
     }
 }
+
+export async function deleteOrientador(orientadorCpf: string) {
+    try {
+        const response = await fetch(`http://localhost:3080/gerenciadorDeTG/v1/orientador/delete/${orientadorCpf}`, {
+            method: "DELETE"
+        })
+
+        if(!response.ok) {
+            throw new Error("Erro ao deletar orientador")
+        }
+
+        window.location.reload()
+    } catch (error) {
+        console.error("Erro ao deletar orientador", error)
+        throw error
+    }
+}

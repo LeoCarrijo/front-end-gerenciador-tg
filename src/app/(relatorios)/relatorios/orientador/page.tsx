@@ -1,5 +1,7 @@
 import { getOrientadores } from "@/actions/relatorios/orientador/actions";
 import CardFatecRelatorios from "@/components/CardFatecRelatorios";
+import DeleteButton from "@/components/orientador/DeleteButton";
+import EditButton from "@/components/orientador/EditButton";
 import {
     Table,
     TableBody,
@@ -21,6 +23,14 @@ async function RelatorioOrientadorPage() {
     }
 
     const orientadores: Orientador[] = await fetchOrientadores()
+    orientadores.forEach(orientador => {
+        if (!Array.isArray(orientador.alunosOrientados)) {
+            orientador.alunosOrientados = []
+        }
+        if (!Array.isArray(orientador.linhasOrientacao)) {
+            orientador.linhasOrientacao = []
+        }
+    });
 
     return (
         <CardFatecRelatorios description="Relatórios - Professores Orientadores">
@@ -33,6 +43,8 @@ async function RelatorioOrientadorPage() {
                             <TableHead className='table-head-cell'>E-mail</TableHead>
                             <TableHead className='table-head-cell'>Alunos Orientados</TableHead>
                             <TableHead className='table-head-cell'>Linhas de Orientação</TableHead>
+                            <TableHead className='table-head-cell'>Editar</TableHead>
+                            <TableHead className='table-head-cell'>Excluir</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -63,6 +75,12 @@ async function RelatorioOrientadorPage() {
                                                     </div>
                                                 ))
                                         }
+                                    </TableCell>
+                                    <TableCell className='table-body-cell'>
+                                        <EditButton orientadorCpf={orientador.cpf} orientadorNome={orientador.nome} />
+                                    </TableCell>
+                                    <TableCell className='table-body-cell'>
+                                        <DeleteButton orientadorCpf={orientador.cpf} />
                                     </TableCell>
                                 </TableRow>
                             ))

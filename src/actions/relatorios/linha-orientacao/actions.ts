@@ -14,3 +14,20 @@ export async function getLinhasOrientacao() {
         alert("Erro ao buscar as linhas de orientação")
     }
 }
+
+export async function deleteLinhaOrientacao(linhaID: number) {
+    try {
+        const response = await fetch(`http://localhost:3080/gerenciadorDeTG/v1/linha/delete/${linhaID}`, {
+            method: "DELETE"
+        })
+
+        if(!response.ok) {
+            throw new Error("Erro ao deletar linha")
+        }
+
+        window.location.reload()
+    } catch (error) {
+        console.error("Erro ao deletar linha", error)
+        throw error
+    }
+}

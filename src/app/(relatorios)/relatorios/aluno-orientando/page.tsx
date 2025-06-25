@@ -11,6 +11,8 @@ import {
 import { getAlunosOrientando } from '@/actions/relatorios/aluno-orientando/actions'
 import { AlunoOrientando } from '@/lib/typing'
 import { generateToast } from '@/lib/utils'
+import EditButton from '@/components/aluno-orientando/EditButton'
+import DeleteButton from '@/components/aluno-orientando/DeleteButton'
 
 async function RelatoriosPage() {
     async function fetchAlunosOrientando() {
@@ -38,6 +40,8 @@ async function RelatoriosPage() {
                             <TableHead className='table-head-cell'>Possui Dependência</TableHead>
                             <TableHead className='table-head-cell'>E-mail do Aluno</TableHead>
                             <TableHead className='table-head-cell'>CPF do Professor</TableHead>
+                            <TableHead className='table-head-cell'>Editar</TableHead>
+                            <TableHead className='table-head-cell'>Excluir</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -53,6 +57,12 @@ async function RelatoriosPage() {
                                     <TableCell className='table-body-cell'>{aluno.filaDependencia ? 'Sim' : 'Não'}</TableCell>
                                     <TableCell className='table-body-cell'>{aluno.email}</TableCell>
                                     <TableCell className='table-body-cell'>{aluno.professorOrientadorCpf || 'N/A'}</TableCell>
+                                    <TableCell className='table-body-cell'>
+                                        <EditButton alunoRa={aluno.matricula} alunoNome={aluno.nome} />
+                                    </TableCell>
+                                    <TableCell className='table-body-cell'>
+                                        <DeleteButton alunoRa={aluno.matricula} />
+                                    </TableCell>
                                 </TableRow>
                             ))
                         }
